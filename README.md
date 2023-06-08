@@ -13,6 +13,7 @@ import { Context, ProductClient, ORACLE_PROGRAM_ID_TESTNET } from "@renec-founda
 
 
 ...
+// your_keypair = Keypair.from([...]);
 
 const commitment: Commitment = "confirmed";
 const connection = new Connection(consts.RPC_ENDPOINT_URL, { commitment });
@@ -29,10 +30,10 @@ const newPrice = 24500.35;
 const productClient = await ProductClient.getProduct(ctx, quote, base);
 const tx = await productClient.postPrice(
     newPrice,
-    authorityPublisher.publicKey
+    productClient.ctx.wallet.publicKey
 );
 
-await tx.addSigner(authorityPublisher).buildAndExecute();
+await tx.buildAndExecute();
 await productClient.refresh();
 
 const price = await productClient.getPrice();
