@@ -16,6 +16,16 @@ export class Methods {
     return this;
   }
 
+  public async addProduct(params: ixs.AddProductParams) {
+    this.ix = await ixs.addProduct(this.ctx.program, params);
+    return this;
+  }
+
+  public async addPublisher(params: ixs.AddPublisherParams) {
+    this.ix = await ixs.addPublisher(this.ctx.program, params);
+    return this;
+  }
+
   public toTx(): TransactionBuilder {
     const tx = new TransactionBuilder(this.ctx.provider.connection, this.ctx.provider.wallet);
     return this.ix ? tx.addInstruction(this.ix) : tx;
