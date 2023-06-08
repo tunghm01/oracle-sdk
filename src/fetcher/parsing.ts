@@ -1,5 +1,5 @@
 import { AccountsCoder } from "@project-serum/anchor";
-import { accountsCoder, ProductData, PriceData, AccountName } from "../types";
+import { accountsCoder, ProductData, PriceData, PublisherData, AccountName } from "../types";
 
 /**
  * Static abstract class definition to parse entities.
@@ -72,6 +72,24 @@ export class ParsablePrice {
       return parseAnchorAccount(AccountName.Price, data);
     } catch (e) {
       console.error(`error while parsing Price: ${e}`);
+      return null;
+    }
+  }
+}
+
+@staticImplements<ParsableEntity<PublisherData>>()
+export class ParsablePublisher {
+  private constructor() {}
+
+  public static parse(data: Buffer | undefined | null): PublisherData | null {
+    if (!data) {
+      return null;
+    }
+
+    try {
+      return parseAnchorAccount(AccountName.Publisher, data);
+    } catch (e) {
+      console.error(`error while parsing Publisher: ${e}`);
       return null;
     }
   }

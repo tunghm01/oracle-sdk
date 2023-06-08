@@ -2,8 +2,8 @@ import { Connection, PublicKey } from "@solana/web3.js";
 import { Address, translateAddress } from "@project-serum/anchor";
 import { AccountLayout } from "@solana/spl-token";
 import invariant from "tiny-invariant";
-import { ProductData, PriceData } from "../";
-import { ParsableEntity, ParsableProduct, ParsablePrice } from "./parsing";
+import { ProductData, PriceData, PublisherData } from "../";
+import { ParsableEntity, ParsableProduct, ParsablePrice, ParsablePublisher } from "./parsing";
 
 /**
  * Supported accounts
@@ -180,5 +180,9 @@ export class AccountFetcher {
 
   public async getPrice(address: Address, refresh = false): Promise<PriceData | null> {
     return this.get(translateAddress(address), ParsablePrice, refresh);
+  }
+
+  public async getPublisher(address: Address, refresh = false): Promise<PublisherData | null> {
+    return this.get(translateAddress(address), ParsablePublisher, refresh);
   }
 }

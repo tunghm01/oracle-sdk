@@ -2,7 +2,7 @@ import { BN } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { TransactionBuilder } from "@orca-so/common-sdk";
 import { Context, PDA } from "..";
-import { ProductData, PriceData, PriceResult } from "../types";
+import { ProductData, PriceData, PriceResult, AssetType, PublisherData } from "../types";
 
 export class ProductClient {
   ctx: Context;
@@ -44,7 +44,80 @@ export class ProductClient {
     return new ProductClient(ctx, product.key, productData, priceData, pda);
   }
 
-  // newPrice = 23546.22
+  // Only admin authority
+  public static async new(
+    ctx: Context,
+    assetType: object,
+    baseCurrency: string,
+    quoteCurrency: string,
+    expo: number,
+    maxPrice: number,
+    minPrice: number,
+    windowSize: number,
+    authority: PublicKey
+  ): Promise<TransactionBuilder> {
+    const _expo = new BN(expo);
+    const _maxPrice = ProductClient.convertToPriceFormat(maxPrice, expo);
+    const _minPrice = ProductClient.convertToPriceFormat(minPrice, expo);
+    const _windowSize = new BN(windowSize);
+
+    const pda = new PDA(ctx.program.programId);
+    const controller = pda.controller();
+    const product = pda.product(quoteCurrency, baseCurrency);
+    const price = pda.price(product.key);
+
+    const tx = (
+      await ctx.methods.addProduct({
+        accounts: {
+          authority,
+          controller: controller.key,
+          product: product.key,
+          price: price.key,
+        },
+        inputs: {
+          assetType,
+          baseCurrency,
+          quoteCurrency,
+          expo: _expo,
+          maxPrice: _maxPrice.price,
+          minPrice: _minPrice.price,
+          windowSize: _windowSize,
+          productBump: product.bump,
+          priceBump: price.bump,
+        },
+      })
+    ).toTx();
+
+    return tx;
+  }
+
+  public async addPublisher(
+    authority: PublicKey,
+    authorityPublisher: PublicKey
+  ): Promise<TransactionBuilder> {
+    const controller = this.pda.controller();
+    const publisher = this.pda.publisher(authorityPublisher, this.productKey);
+
+    const tx = (
+      await this.ctx.methods.addPublisher({
+        accounts: {
+          controller: controller.key,
+          authority,
+          product: this.productKey,
+          authorityPublisher,
+          publisher: publisher.key,
+        },
+        inputs: {
+          bump: publisher.bump,
+        },
+      })
+    ).toTx();
+
+    return tx;
+  }
+
+  // Role: Publisher
+  // @params newPrice = 23546.22
   public async postPrice(
     newPrice: number,
     authorityPublisher: PublicKey
@@ -53,6 +126,9 @@ export class ProductClient {
 
     const priceKey = this.pda.price(this.productKey);
     const publisherKey = this.pda.publisher(authorityPublisher, this.productKey);
+
+    // check role
+    await this.getPublisher(authorityPublisher);
 
     const tx = (
       await this.ctx.methods.postPrice({
@@ -69,6 +145,20 @@ export class ProductClient {
     ).toTx();
 
     return tx;
+  }
+
+  public async getPublisher(authorityPublisher: PublicKey): Promise<PublisherData> {
+    const publisherKey = this.pda.publisher(authorityPublisher, this.productKey);
+    const publisherData = await this.ctx.fetcher.getPublisher(publisherKey.key, true);
+    if (!publisherData) {
+      throw new Error(
+        `${authorityPublisher.toBase58()} is not Publisher of ${this.productData.baseCurrency}/${
+          this.productData.quoteCurrency
+        }`
+      );
+    }
+
+    return publisherData;
   }
 
   public async getPrice(refresh = false): Promise<PriceResult> {
@@ -114,7 +204,7 @@ export class ProductClient {
       const currentDecimalLength: number = decimalPart.length;
 
       const diff = Math.abs(desiredExpo) - currentDecimalLength;
-      console.log(diff);
+
       if (diff > 0) {
         price = parseInt(integerPart + decimalPart + "0".repeat(diff), 10);
       } else if (diff < 0) {

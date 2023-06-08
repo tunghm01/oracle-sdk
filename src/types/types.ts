@@ -25,6 +25,11 @@ export const ProductStatus = {
   Online: { online: {} },
 };
 
+export const PublisherStatus = {
+  Unknown: { unknown: {} },
+  Valid: { valid: {} },
+};
+
 export type PriceResult = {
   price: number;
   symbol: string;
@@ -54,8 +59,16 @@ export type PriceData = {
   price: BN;
   numPublishers: number;
   timestamp: BN;
-
   prevPrice: BN;
   prevTimestamp: BN;
+  bump: number[];
+};
+
+export type PublisherData = {
+  status: object; // PublisherStatus
+  authority: PublicKey;
+  productAccount: PublicKey;
+  controllerAccount: PublicKey;
+  lastPushTimestamp: BN;
   bump: number[];
 };
