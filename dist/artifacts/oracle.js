@@ -67,6 +67,16 @@ exports.IDL = {
                     "isSigner": false
                 },
                 {
+                    "name": "quoteMint",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "baseMint",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
                     "name": "systemProgram",
                     "isMut": false,
                     "isSigner": false
@@ -312,11 +322,22 @@ exports.IDL = {
                     },
                     {
                         "name": "quoteCurrency",
+                        "docs": [
+                            "e.g. \"USD\" null padded (`*b\"USD\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\"`) or a SPL token mint pubkey"
+                        ],
                         "type": "string"
+                    },
+                    {
+                        "name": "quoteMint",
+                        "type": "publicKey"
                     },
                     {
                         "name": "baseCurrency",
                         "type": "string"
+                    },
+                    {
+                        "name": "baseMint",
+                        "type": "publicKey"
                     },
                     {
                         "name": "priceAccount",

@@ -36,7 +36,7 @@ class ProductClient {
         });
     }
     // Only admin authority
-    static new(ctx, assetType, baseCurrency, quoteCurrency, expo, maxPrice, minPrice, windowSize, authority) {
+    static new(ctx, assetType, baseCurrency, baseMint, quoteCurrency, quoteMint, expo, maxPrice, minPrice, windowSize, authority) {
         return __awaiter(this, void 0, void 0, function* () {
             const _expo = new anchor_1.BN(expo);
             const _maxPrice = ProductClient.convertToPriceFormat(maxPrice, expo);
@@ -52,6 +52,8 @@ class ProductClient {
                     controller: controller.key,
                     product: product.key,
                     price: price.key,
+                    baseMint,
+                    quoteMint,
                 },
                 inputs: {
                     assetType,

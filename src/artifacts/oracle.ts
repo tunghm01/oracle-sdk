@@ -64,6 +64,16 @@ export type Oracle = {
           "isSigner": false
         },
         {
+          "name": "quoteMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "baseMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
@@ -309,11 +319,22 @@ export type Oracle = {
           },
           {
             "name": "quoteCurrency",
+            "docs": [
+              "e.g. \"USD\" null padded (`*b\"USD\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\"`) or a SPL token mint pubkey"
+            ],
             "type": "string"
+          },
+          {
+            "name": "quoteMint",
+            "type": "publicKey"
           },
           {
             "name": "baseCurrency",
             "type": "string"
+          },
+          {
+            "name": "baseMint",
+            "type": "publicKey"
           },
           {
             "name": "priceAccount",
@@ -561,6 +582,16 @@ export const IDL: Oracle = {
           "isSigner": false
         },
         {
+          "name": "quoteMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "baseMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
           "name": "systemProgram",
           "isMut": false,
           "isSigner": false
@@ -806,11 +837,22 @@ export const IDL: Oracle = {
           },
           {
             "name": "quoteCurrency",
+            "docs": [
+              "e.g. \"USD\" null padded (`*b\"USD\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\"`) or a SPL token mint pubkey"
+            ],
             "type": "string"
+          },
+          {
+            "name": "quoteMint",
+            "type": "publicKey"
           },
           {
             "name": "baseCurrency",
             "type": "string"
+          },
+          {
+            "name": "baseMint",
+            "type": "publicKey"
           },
           {
             "name": "priceAccount",
