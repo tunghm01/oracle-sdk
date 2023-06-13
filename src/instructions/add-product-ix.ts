@@ -10,6 +10,8 @@ export type AddProductParams = {
     controller: PublicKey;
     product: PublicKey;
     price: PublicKey;
+    baseMint: PublicKey;
+    quoteMint: PublicKey;
   };
   inputs: {
     assetType: object; // AssetType

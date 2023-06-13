@@ -42,7 +42,9 @@ export type ProductData = {
   status: object; // ProductStatus
   assetType: object; // AssetType
   quoteCurrency: String;
+  quoteMint: PublicKey;
   baseCurrency: String;
+  baseMint: PublicKey;
   priceAccount: PublicKey;
   expo: number;
   maxPrice: BN;
