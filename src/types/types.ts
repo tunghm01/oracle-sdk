@@ -50,7 +50,7 @@ export type ProductData = {
   maxPrice: BN;
   minPrice: BN;
   windowSize: BN;
-  controllerAccount: PublicKey;
+  controller: PublicKey;
   bump: number[];
 };
 

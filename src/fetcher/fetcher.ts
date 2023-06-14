@@ -8,7 +8,7 @@ import { ParsableEntity, ParsableProduct, ParsablePrice, ParsablePublisher } fro
 /**
  * Supported accounts
  */
-type CachedValue = ParsableProduct;
+type CachedValue = ParsableProduct | ParsablePrice | ParsablePublisher;
 
 /**
  * Include both the entity (i.e. type) of the stored value, and the value itself

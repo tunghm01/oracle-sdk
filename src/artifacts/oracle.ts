@@ -217,6 +217,50 @@ export type Oracle = {
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "setProductTokens",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "controller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "authority required"
+          ]
+        },
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "baseMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -319,9 +363,6 @@ export type Oracle = {
           },
           {
             "name": "quoteCurrency",
-            "docs": [
-              "e.g. \"USD\" null padded (`*b\"USD\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\"`) or a SPL token mint pubkey"
-            ],
             "type": "string"
           },
           {
@@ -735,6 +776,50 @@ export const IDL: Oracle = {
           "type": "u64"
         }
       ]
+    },
+    {
+      "name": "setProductTokens",
+      "accounts": [
+        {
+          "name": "authority",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "controller",
+          "isMut": true,
+          "isSigner": false,
+          "docs": [
+            "authority required"
+          ]
+        },
+        {
+          "name": "product",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "quoteMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "baseMint",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": []
     }
   ],
   "accounts": [
@@ -837,9 +922,6 @@ export const IDL: Oracle = {
           },
           {
             "name": "quoteCurrency",
-            "docs": [
-              "e.g. \"USD\" null padded (`*b\"USD\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\\0\"`) or a SPL token mint pubkey"
-            ],
             "type": "string"
           },
           {

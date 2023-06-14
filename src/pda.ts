@@ -29,7 +29,7 @@ export class PDA {
     };
   };
 
-  product = (quote: string, base: string, version = 1): PDAInfo => {
+  product = (quote: anchor.web3.PublicKey, base: anchor.web3.PublicKey, version = 1): PDAInfo => {
     const _version: anchor.BN = new anchor.BN(version);
     const controller = this.controller(version);
 
@@ -38,8 +38,8 @@ export class PDA {
         anchor.utils.bytes.utf8.encode(PRODUCT_SEED),
         controller.key.toBuffer(),
         _version.toArrayLike(Buffer, "le", 2),
-        anchor.utils.bytes.utf8.encode(quote),
-        anchor.utils.bytes.utf8.encode(base),
+        quote.toBuffer(),
+        base.toBuffer(),
       ],
       this.programId
     );

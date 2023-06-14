@@ -27,8 +27,8 @@ export class ProductClient {
 
   public static async getProduct(
     ctx: Context,
-    quote: string,
-    base: string
+    quote: PublicKey,
+    base: PublicKey
   ): Promise<ProductClient> {
     const pda = new PDA(ctx.program.programId);
     const product = pda.product(quote, base);
@@ -65,7 +65,7 @@ export class ProductClient {
 
     const pda = new PDA(ctx.program.programId);
     const controller = pda.controller();
-    const product = pda.product(quoteCurrency, baseCurrency);
+    const product = pda.product(quoteMint, baseMint);
     const price = pda.price(product.key);
 
     const tx = (
