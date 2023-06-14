@@ -1,11 +1,11 @@
 import { Connection } from "@solana/web3.js";
 import { Address } from "@project-serum/anchor";
 import { ProductData, PriceData, PublisherData } from "../";
-import { ParsableEntity, ParsableProduct } from "./parsing";
+import { ParsableEntity, ParsableProduct, ParsablePrice, ParsablePublisher } from "./parsing";
 /**
  * Supported accounts
  */
-type CachedValue = ParsableProduct;
+type CachedValue = ParsableProduct | ParsablePrice | ParsablePublisher;
 /**
  * Include both the entity (i.e. type) of the stored value, and the value itself
  */

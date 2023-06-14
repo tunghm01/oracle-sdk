@@ -220,6 +220,50 @@ exports.IDL = {
                     "type": "u64"
                 }
             ]
+        },
+        {
+            "name": "setProductTokens",
+            "accounts": [
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "controller",
+                    "isMut": true,
+                    "isSigner": false,
+                    "docs": [
+                        "authority required"
+                    ]
+                },
+                {
+                    "name": "product",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "quoteMint",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "baseMint",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "rent",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
         }
     ],
     "accounts": [

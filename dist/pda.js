@@ -46,8 +46,8 @@ class PDA {
                 anchor.utils.bytes.utf8.encode(exports.PRODUCT_SEED),
                 controller.key.toBuffer(),
                 _version.toArrayLike(Buffer, "le", 2),
-                anchor.utils.bytes.utf8.encode(quote),
-                anchor.utils.bytes.utf8.encode(base),
+                quote.toBuffer(),
+                base.toBuffer(),
             ], this.programId);
             return {
                 key: pda,

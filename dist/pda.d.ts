@@ -11,7 +11,7 @@ export declare class PDA {
     readonly programId: anchor.web3.PublicKey;
     constructor(programId: anchor.web3.PublicKey);
     controller: (version?: number) => PDAInfo;
-    product: (quote: string, base: string, version?: number) => PDAInfo;
+    product: (quote: anchor.web3.PublicKey, base: anchor.web3.PublicKey, version?: number) => PDAInfo;
     price: (product: anchor.web3.PublicKey) => PDAInfo;
     publisher: (authority: anchor.web3.PublicKey, product: anchor.web3.PublicKey, version?: number) => PDAInfo;
 }

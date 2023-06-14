@@ -44,7 +44,7 @@ class ProductClient {
             const _windowSize = new anchor_1.BN(windowSize);
             const pda = new __1.PDA(ctx.program.programId);
             const controller = pda.controller();
-            const product = pda.product(quoteCurrency, baseCurrency);
+            const product = pda.product(quoteMint, baseMint);
             const price = pda.price(product.key);
             const tx = (yield ctx.methods.addProduct({
                 accounts: {
