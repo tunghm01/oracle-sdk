@@ -23,9 +23,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.VERSION = exports.REUSD_TESTNET = exports.REVND_TESTNET = exports.ORACLE_PROGRAM_ID_TESTNET = void 0;
+exports.keypairFromJson = void 0;
 const anchor = __importStar(require("@project-serum/anchor"));
-exports.ORACLE_PROGRAM_ID_TESTNET = new anchor.web3.PublicKey("iXZdzEcBBog2t41gXcJvsxtdaydmMxVdHg3znHawb13");
-exports.REVND_TESTNET = new anchor.web3.PublicKey("2biriGL1VxANfbdZWiNcyr3d8NndJFwpjUi7KT4ZTZkQ");
-exports.REUSD_TESTNET = new anchor.web3.PublicKey("HKsJuy7nr8jP1LfUng1FuauMLrCsb5TooR7VNxjEygtP");
-exports.VERSION = 1;
+function keypairFromJson(secretKey) {
+    return anchor.web3.Keypair.fromSecretKey(Uint8Array.from(secretKey));
+}
+exports.keypairFromJson = keypairFromJson;

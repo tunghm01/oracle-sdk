@@ -9,7 +9,9 @@ import {
   Commitment,
 } from "@solana/web3.js";
 import { AnchorProvider, Wallet, BN, Address } from "@project-serum/anchor";
-import { Context, ProductClient, ORACLE_PROGRAM_ID_TESTNET } from "@renec-foundation/oracle-sdk";
+import { Context, ProductClient, 
+  ORACLE_PROGRAM_ID_TESTNET, REUSD_TESTNET, REVND_TESTNET, VERSION 
+} from "@renec-foundation/oracle-sdk";
 
 
 ...
@@ -21,14 +23,14 @@ const connection = new Connection(consts.RPC_ENDPOINT_URL, { commitment });
 const wallet = new Wallet(yourKey);
 const provider = new AnchorProvider(connection, wallet, { commitment });
 
-const ctx = Context.withProvider(provider, new PublicKey(ORACLE_PROGRAM_ID_TESTNET));
+const ctx = Context.withProvider(provider, ORACLE_PROGRAM_ID_TESTNET);
 
 
 const quote = REUSD_TESTNET;
 const base = REVND_TESTNET;
 const newPrice = 24500.35;
 
-const productClient = await ProductClient.getProduct(ctx, quote, base);
+const productClient = await ProductClient.getProduct(ctx, quote, base, VERSION);
 const tx = await productClient.postPrice(
     newPrice,
     productClient.ctx.wallet.publicKey

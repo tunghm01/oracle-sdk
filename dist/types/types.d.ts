@@ -74,8 +74,8 @@ export type PriceData = {
 export type PublisherData = {
     status: object;
     authority: PublicKey;
-    productAccount: PublicKey;
-    controllerAccount: PublicKey;
+    product: PublicKey;
+    controller: PublicKey;
     lastPushTimestamp: BN;
     bump: number[];
 };

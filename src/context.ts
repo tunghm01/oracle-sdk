@@ -4,6 +4,7 @@ import { ConfirmOptions, Connection, PublicKey } from "@solana/web3.js";
 import { OracleIDL, OracleType } from "./types";
 import { AccountFetcher } from "./fetcher";
 import { Methods } from "./methods";
+import { PDA } from "./pda";
 /**
  * @category Core
  */
@@ -15,6 +16,7 @@ export class Context {
   readonly provider: Provider;
   readonly fetcher: AccountFetcher;
   readonly methods: Methods;
+  readonly pda: PDA;
 
   public static from(
     connection: Connection,
@@ -62,6 +64,7 @@ export class Context {
     this.provider = provider;
     this.fetcher = fetcher;
     this.methods = new Methods(this);
+    this.pda = new PDA(this.program.programId);
   }
 
   // TODO: Add another factory method to build from on-chain IDL

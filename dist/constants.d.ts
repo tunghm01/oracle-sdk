@@ -1,3 +1,5 @@
-export declare const ORACLE_PROGRAM_ID_TESTNET = "iXZdzEcBBog2t41gXcJvsxtdaydmMxVdHg3znHawb13";
-export declare const REVND_TESTNET = "2biriGL1VxANfbdZWiNcyr3d8NndJFwpjUi7KT4ZTZkQ";
-export declare const REUSD_TESTNET = "HKsJuy7nr8jP1LfUng1FuauMLrCsb5TooR7VNxjEygtP";
+import * as anchor from "@project-serum/anchor";
+export declare const ORACLE_PROGRAM_ID_TESTNET: anchor.web3.PublicKey;
+export declare const REVND_TESTNET: anchor.web3.PublicKey;
+export declare const REUSD_TESTNET: anchor.web3.PublicKey;
+export declare const VERSION = 1;

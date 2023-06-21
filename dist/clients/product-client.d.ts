@@ -11,8 +11,8 @@ export declare class ProductClient {
     productKey: PublicKey;
     pda: PDA;
     constructor(ctx: Context, productKey: PublicKey, productData: ProductData, priceData: PriceData, pda: PDA);
-    static getProduct(ctx: Context, quote: PublicKey, base: PublicKey): Promise<ProductClient>;
-    static new(ctx: Context, assetType: object, baseCurrency: string, baseMint: PublicKey, quoteCurrency: string, quoteMint: PublicKey, expo: number, maxPrice: number, minPrice: number, windowSize: number, authority: PublicKey): Promise<TransactionBuilder>;
+    static getProduct(ctx: Context, quote: PublicKey, base: PublicKey, version?: number): Promise<ProductClient>;
+    static new(ctx: Context, assetType: object, baseCurrency: string, baseMint: PublicKey, quoteCurrency: string, quoteMint: PublicKey, expo: number, maxPrice: number, minPrice: number, windowSize: number, authority: PublicKey, version?: number): Promise<TransactionBuilder>;
     addPublisher(authority: PublicKey, authorityPublisher: PublicKey): Promise<TransactionBuilder>;
     postPrice(newPrice: number, authorityPublisher: PublicKey): Promise<TransactionBuilder>;
     getPublisher(authorityPublisher: PublicKey): Promise<PublisherData>;

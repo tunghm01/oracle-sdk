@@ -28,10 +28,11 @@ export class ProductClient {
   public static async getProduct(
     ctx: Context,
     quote: PublicKey,
-    base: PublicKey
+    base: PublicKey,
+    version = 1
   ): Promise<ProductClient> {
     const pda = new PDA(ctx.program.programId);
-    const product = pda.product(quote, base);
+    const product = pda.product(quote, base, version);
 
     const productData = await ctx.fetcher.getProduct(product.key, true);
     if (!productData) {
@@ -56,7 +57,8 @@ export class ProductClient {
     maxPrice: number,
     minPrice: number,
     windowSize: number,
-    authority: PublicKey
+    authority: PublicKey,
+    version = 1
   ): Promise<TransactionBuilder> {
     const _expo = new BN(expo);
     const _maxPrice = ProductClient.convertToPriceFormat(maxPrice, expo);
@@ -64,8 +66,8 @@ export class ProductClient {
     const _windowSize = new BN(windowSize);
 
     const pda = new PDA(ctx.program.programId);
-    const controller = pda.controller();
-    const product = pda.product(quoteMint, baseMint);
+    const controller = pda.controller(version);
+    const product = pda.product(quoteMint, baseMint, version);
     const price = pda.price(product.key);
 
     const tx = (
@@ -99,13 +101,17 @@ export class ProductClient {
     authority: PublicKey,
     authorityPublisher: PublicKey
   ): Promise<TransactionBuilder> {
-    const controller = this.pda.controller();
-    const publisher = this.pda.publisher(authorityPublisher, this.productKey);
+    const controller = this.productData.controller;
+    const publisher = this.pda.publisher(
+      authorityPublisher,
+      this.productKey,
+      this.productData.version
+    );
 
     const tx = (
       await this.ctx.methods.addPublisher({
         accounts: {
-          controller: controller.key,
+          controller: controller,
           authority,
           product: this.productKey,
           authorityPublisher,
@@ -129,9 +135,13 @@ export class ProductClient {
     const priceInFormat = ProductClient.convertToPriceFormat(newPrice, this.productData.expo);
 
     const priceKey = this.pda.price(this.productKey);
-    const publisherKey = this.pda.publisher(authorityPublisher, this.productKey);
+    const publisherKey = this.pda.publisher(
+      authorityPublisher,
+      this.productKey,
+      this.productData.version
+    );
 
-    // check role
+    // check publisher role
     await this.getPublisher(authorityPublisher);
 
     const tx = (
@@ -152,7 +162,11 @@ export class ProductClient {
   }
 
   public async getPublisher(authorityPublisher: PublicKey): Promise<PublisherData> {
-    const publisherKey = this.pda.publisher(authorityPublisher, this.productKey);
+    const publisherKey = this.pda.publisher(
+      authorityPublisher,
+      this.productKey,
+      this.productData.version
+    );
     const publisherData = await this.ctx.fetcher.getPublisher(publisherKey.key, true);
     if (!publisherData) {
       throw new Error(

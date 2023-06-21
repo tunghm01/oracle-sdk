@@ -5,6 +5,7 @@ const anchor_1 = require("@project-serum/anchor");
 const types_1 = require("./types");
 const fetcher_1 = require("./fetcher");
 const methods_1 = require("./methods");
+const pda_1 = require("./pda");
 /**
  * @category Core
  */
@@ -30,6 +31,7 @@ class Context {
         this.provider = provider;
         this.fetcher = fetcher;
         this.methods = new methods_1.Methods(this);
+        this.pda = new pda_1.PDA(this.program.programId);
     }
 }
 exports.Context = Context;

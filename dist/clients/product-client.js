@@ -20,10 +20,10 @@ class ProductClient {
         this.productKey = productKey;
         this.pda = pda;
     }
-    static getProduct(ctx, quote, base) {
+    static getProduct(ctx, quote, base, version = 1) {
         return __awaiter(this, void 0, void 0, function* () {
             const pda = new __1.PDA(ctx.program.programId);
-            const product = pda.product(quote, base);
+            const product = pda.product(quote, base, version);
             const productData = yield ctx.fetcher.getProduct(product.key, true);
             if (!productData) {
                 throw new Error(`Product of ${base}/${quote} not found`);
@@ -36,15 +36,15 @@ class ProductClient {
         });
     }
     // Only admin authority
-    static new(ctx, assetType, baseCurrency, baseMint, quoteCurrency, quoteMint, expo, maxPrice, minPrice, windowSize, authority) {
+    static new(ctx, assetType, baseCurrency, baseMint, quoteCurrency, quoteMint, expo, maxPrice, minPrice, windowSize, authority, version = 1) {
         return __awaiter(this, void 0, void 0, function* () {
             const _expo = new anchor_1.BN(expo);
             const _maxPrice = ProductClient.convertToPriceFormat(maxPrice, expo);
             const _minPrice = ProductClient.convertToPriceFormat(minPrice, expo);
             const _windowSize = new anchor_1.BN(windowSize);
             const pda = new __1.PDA(ctx.program.programId);
-            const controller = pda.controller();
-            const product = pda.product(quoteMint, baseMint);
+            const controller = pda.controller(version);
+            const product = pda.product(quoteMint, baseMint, version);
             const price = pda.price(product.key);
             const tx = (yield ctx.methods.addProduct({
                 accounts: {
@@ -72,11 +72,11 @@ class ProductClient {
     }
     addPublisher(authority, authorityPublisher) {
         return __awaiter(this, void 0, void 0, function* () {
-            const controller = this.pda.controller();
-            const publisher = this.pda.publisher(authorityPublisher, this.productKey);
+            const controller = this.productData.controller;
+            const publisher = this.pda.publisher(authorityPublisher, this.productKey, this.productData.version);
             const tx = (yield this.ctx.methods.addPublisher({
                 accounts: {
-                    controller: controller.key,
+                    controller: controller,
                     authority,
                     product: this.productKey,
                     authorityPublisher,
@@ -95,8 +95,8 @@ class ProductClient {
         return __awaiter(this, void 0, void 0, function* () {
             const priceInFormat = ProductClient.convertToPriceFormat(newPrice, this.productData.expo);
             const priceKey = this.pda.price(this.productKey);
-            const publisherKey = this.pda.publisher(authorityPublisher, this.productKey);
-            // check role
+            const publisherKey = this.pda.publisher(authorityPublisher, this.productKey, this.productData.version);
+            // check publisher role
             yield this.getPublisher(authorityPublisher);
             const tx = (yield this.ctx.methods.postPrice({
                 accounts: {
@@ -114,7 +114,7 @@ class ProductClient {
     }
     getPublisher(authorityPublisher) {
         return __awaiter(this, void 0, void 0, function* () {
-            const publisherKey = this.pda.publisher(authorityPublisher, this.productKey);
+            const publisherKey = this.pda.publisher(authorityPublisher, this.productKey, this.productData.version);
             const publisherData = yield this.ctx.fetcher.getPublisher(publisherKey.key, true);
             if (!publisherData) {
                 throw new Error(`${authorityPublisher.toBase58()} is not Publisher of ${this.productData.baseCurrency}/${this.productData.quoteCurrency}`);
