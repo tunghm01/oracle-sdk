@@ -26,6 +26,16 @@ export class Methods {
     return this;
   }
 
+  public async rmPublisher(params: ixs.RemovePublisherParams) {
+    this.ix = await ixs.rmPublisher(this.ctx.program, params);
+    return this;
+  }
+
+  public async setSafeRange(params: ixs.SetSafeRangeParams) {
+    this.ix = await ixs.setSafeRange(this.ctx.program, params);
+    return this;
+  }
+
   public toTx(): TransactionBuilder {
     const tx = new TransactionBuilder(this.ctx.provider.connection, this.ctx.provider.wallet);
     return this.ix ? tx.addInstruction(this.ix) : tx;

@@ -2,7 +2,7 @@ import { BN } from "@project-serum/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { TransactionBuilder } from "@orca-so/common-sdk";
 import { Context, PDA } from "..";
-import { ProductData, PriceData, PriceResult, AssetType, PublisherData } from "../types";
+import { ProductData, PriceData, PriceResult, PublisherData } from "../types";
 
 export class ProductClient {
   ctx: Context;
@@ -97,6 +97,7 @@ export class ProductClient {
     return tx;
   }
 
+  // Role: Admin
   public async addPublisher(
     authority: PublicKey,
     authorityPublisher: PublicKey
@@ -119,6 +120,61 @@ export class ProductClient {
         },
         inputs: {
           bump: publisher.bump,
+        },
+      })
+    ).toTx();
+
+    return tx;
+  }
+
+  // Role: Admin
+  public async rmPublisher(
+    authority: PublicKey,
+    authorityPublisher: PublicKey
+  ): Promise<TransactionBuilder> {
+    const controller = this.productData.controller;
+    const publisher = this.pda.publisher(
+      authorityPublisher,
+      this.productKey,
+      this.productData.version
+    );
+
+    // check is existed
+
+    const tx = (
+      await this.ctx.methods.rmPublisher({
+        accounts: {
+          controller: controller,
+          authority,
+          product: this.productKey,
+          publisher: publisher.key,
+        },
+      })
+    ).toTx();
+
+    return tx;
+  }
+
+  // Role: Admin
+  public async setSafeRange(
+    authority: PublicKey,
+    maxPrice: number,
+    minPrice: number
+  ): Promise<TransactionBuilder> {
+    const { controller, expo } = this.productData;
+    const _maxPrice = ProductClient.convertToPriceFormat(maxPrice, expo);
+    const _minPrice = ProductClient.convertToPriceFormat(minPrice, expo);
+
+    const tx = (
+      await this.ctx.methods.setSafeRange({
+        accounts: {
+          authority,
+          controller: controller,
+          product: this.productKey,
+        },
+        inputs: {
+          maxPrice: _maxPrice.price,
+          minPrice: _minPrice.price,
         },
       })
     ).toTx();

@@ -8,5 +8,7 @@ export declare class Methods {
     postPrice(params: ixs.PostPriceParams): Promise<this>;
     addProduct(params: ixs.AddProductParams): Promise<this>;
     addPublisher(params: ixs.AddPublisherParams): Promise<this>;
+    rmPublisher(params: ixs.RemovePublisherParams): Promise<this>;
+    setSafeRange(params: ixs.SetSafeRangeParams): Promise<this>;
     toTx(): TransactionBuilder;
 }

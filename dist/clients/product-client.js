@@ -70,6 +70,7 @@ class ProductClient {
             return tx;
         });
     }
+    // Role: Admin
     addPublisher(authority, authorityPublisher) {
         return __awaiter(this, void 0, void 0, function* () {
             const controller = this.productData.controller;
@@ -84,6 +85,43 @@ class ProductClient {
                 },
                 inputs: {
                     bump: publisher.bump,
+                },
+            })).toTx();
+            return tx;
+        });
+    }
+    // Role: Admin
+    rmPublisher(authority, authorityPublisher) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const controller = this.productData.controller;
+            const publisher = this.pda.publisher(authorityPublisher, this.productKey, this.productData.version);
+            // check is existed
+            const tx = (yield this.ctx.methods.rmPublisher({
+                accounts: {
+                    controller: controller,
+                    authority,
+                    product: this.productKey,
+                    publisher: publisher.key,
+                },
+            })).toTx();
+            return tx;
+        });
+    }
+    // Role: Admin
+    setSafeRange(authority, maxPrice, minPrice) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { controller, expo } = this.productData;
+            const _maxPrice = ProductClient.convertToPriceFormat(maxPrice, expo);
+            const _minPrice = ProductClient.convertToPriceFormat(minPrice, expo);
+            const tx = (yield this.ctx.methods.setSafeRange({
+                accounts: {
+                    authority,
+                    controller: controller,
+                    product: this.productKey,
+                },
+                inputs: {
+                    maxPrice: _maxPrice.price,
+                    minPrice: _minPrice.price,
                 },
             })).toTx();
             return tx;

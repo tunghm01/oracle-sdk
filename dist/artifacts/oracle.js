@@ -181,6 +181,45 @@ exports.IDL = {
             ]
         },
         {
+            "name": "removePublisher",
+            "accounts": [
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
+                },
+                {
+                    "name": "controller",
+                    "isMut": true,
+                    "isSigner": false,
+                    "docs": [
+                        "authority required"
+                    ]
+                },
+                {
+                    "name": "product",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "publisher",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
+                    "isMut": false,
+                    "isSigner": false
+                },
+                {
+                    "name": "rent",
+                    "isMut": false,
+                    "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
             "name": "postPrice",
             "accounts": [
                 {
@@ -256,14 +295,47 @@ exports.IDL = {
                     "name": "systemProgram",
                     "isMut": false,
                     "isSigner": false
+                }
+            ],
+            "args": []
+        },
+        {
+            "name": "setSafeRange",
+            "accounts": [
+                {
+                    "name": "authority",
+                    "isMut": true,
+                    "isSigner": true
                 },
                 {
-                    "name": "rent",
+                    "name": "controller",
+                    "isMut": true,
+                    "isSigner": false,
+                    "docs": [
+                        "authority required"
+                    ]
+                },
+                {
+                    "name": "product",
+                    "isMut": true,
+                    "isSigner": false
+                },
+                {
+                    "name": "systemProgram",
                     "isMut": false,
                     "isSigner": false
                 }
             ],
-            "args": []
+            "args": [
+                {
+                    "name": "maxPrice",
+                    "type": "u64"
+                },
+                {
+                    "name": "minPrice",
+                    "type": "u64"
+                }
+            ]
         }
     ],
     "accounts": [

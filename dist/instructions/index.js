@@ -17,3 +17,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./post-price-ix"), exports);
 __exportStar(require("./add-product-ix"), exports);
 __exportStar(require("./add-publisher-ix"), exports);
+__exportStar(require("./rm-publisher-ix"), exports);
+__exportStar(require("./set-safe-range-ix"), exports);

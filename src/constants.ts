@@ -1,4 +1,3 @@
-
 import * as anchor from "@project-serum/anchor";
 
 export const ORACLE_PROGRAM_ID_TESTNET = new anchor.web3.PublicKey(

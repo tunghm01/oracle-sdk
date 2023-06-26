@@ -58,6 +58,18 @@ class Methods {
             return this;
         });
     }
+    rmPublisher(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.ix = yield ixs.rmPublisher(this.ctx.program, params);
+            return this;
+        });
+    }
+    setSafeRange(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.ix = yield ixs.setSafeRange(this.ctx.program, params);
+            return this;
+        });
+    }
     toTx() {
         const tx = new common_sdk_1.TransactionBuilder(this.ctx.provider.connection, this.ctx.provider.wallet);
         return this.ix ? tx.addInstruction(this.ix) : tx;
